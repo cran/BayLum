@@ -1,6 +1,6 @@
-6c8b61155969f775b5c43182d1d650b4 *DESCRIPTION
+f92ff9c2f30943d826045027786e08bc *DESCRIPTION
 3882f4ab2533ede4b776536291a21408 *NAMESPACE
-880d6abb4b745829dd4ec4a02e95a0c9 *NEWS
+785dba6a3bd4f1025fd234446a56b419 *NEWS
 d64e7b9f342aca00ccc9cb8b41dda6bb *R/AgeC14_Computation.R
 ec7821d5c46c056e2ca40b23bc58e7ff *R/AgeS_Computation.R
 d3cc51c8f5f68196fce68f69680d4ede *R/Age_Computation.R
@@ -75,5 +75,5 @@ e892fbd36a62cdffa3e3395381a82e09 *man/Palaeodose_Computation.Rd
 ec017e09a8924267f44757a70638269b *man/SCMatrix.Rd
 a97b3b425c80927c1408200911d21d93 *man/SC_Ordered.Rd
 8ce507950c9a391b734690dca38dae39 *man/ScatterSamples.Rd
-2c1c8976fb7078d8375494e867e0d66f *vignettes/BayLum.Rmd
+32f35e05449cfeea57ba54219e205ae6 *vignettes/BayLum.Rmd
 edee0f310aa87853f814fc13797fa8b1 *vignettes/BayLum.html.asis
