@@ -1,4 +1,5 @@
-#' Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements, a list of luminescence data and information before statistical analysis
+#' Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements, a list of luminescence
+#' data and information before statistical analysis
 #'
 #' This function is used to generate, from the BIN file(s), a list of values of:
 #' \bold{Multi-grain} OSL intensities and associated uncertainties, regenerative doses, etc., which will be the input of the Bayesian models.
@@ -7,23 +8,27 @@
 #' It is possible to process data for various samples simultaneously and to consider more
 #' than one BIN file per sample.
 #'
-#' @param Path character: the path to the project folder, containing one or more subfolders in which the BIN files
+#' @param Path [character] (**required**): the path to the project folder, containing one or more subfolders in which the BIN files
 #' are located. If it is not equal to "", it must be terminated by "/".
-#' @param FolderNames character vector: list of names of the sub-folders containing the BIN files
+#' @param FolderNames [character] (**required**) vector: list of names of the sub-folders containing the BIN files
 #' - each subfolder must contain a BIN file and associated csv files.
 #' See details for more informations on associated csv files required in the subfolders.
 #' If there is more than one BIN file per sample, see the details section for instructions regarding how to correctly fill the
 #' \code{FolderNames} vector.
-#' @param Nb_sample integer: number of samples.
-#' @param Nb_binfile integer (with default): number of BIN files. It must be equal to, or greater than \code{Nb_sample}.
-#' @param BinPerSample integer vector (with default): vector with the number of BIN files per sample.
+#' @param Nb_sample [integer] (**required**): number of samples.
+#' @param Nb_binfile [integer] (with default): number of BIN files. It must be equal to, or greater than \code{Nb_sample}.
+#' @param BinPerSample [integer] vector (with default): vector with the number of BIN files per sample.
 #' The length of this vector must be equal to \code{Nb_sample} and the sum of entries of this vector must be equal to \code{Nb_binfile}.
 #' If there is more than one BIN file per sample, see the details section for instructions regarding how to correctly fill \code{BinPerSample} vector.
 #' Otherwise, this vector must contain a list of 1 values.
-#' @param sepD character (with default): column separator in the DiscPose.csv files.
-#' @param sepDE character (with default): column separator in the DoseEnv.csv files.
-#' @param sepDS character (with default): column separator in the DoseLab.csv files.
-#' @param sepR character (with default): column separator in the Rule.csv files.
+#' @param sepD [character] (with default): column separator in the DiscPose.csv files.
+#' @param sepDE [character] (with default): column separator in the DoseEnv.csv files.
+#' @param sepDS [character] (with default): column separator in the DoseLab.csv files.
+#' @param sepR [character] (with default): column separator in the Rule.csv files.
+#'
+#' @param verbose [logical] (with default): enable/disable verbose mode
+#'
+#' @param ... further arguments that can be passed to [Luminescence::read_BIN2R].
 #'
 #' @details
 #' With \code{Path} and \code{FolderNames}, this function goes to the subfolders containing the BIN files and associated information to compute
@@ -59,7 +64,7 @@
 #'
 #' \bold{** How to fill the} \code{FolderNames} \bold{vector? **}\cr
 #'
-#' \code{FolderNames} is a vector of length \code{Nb_binfile}. \code{FolderNames}[i] is the name (e.g., Sample1-File1, or successive names separated by "/" signs,
+#' \code{FolderNames} is a vector of length \code{Nb_binfile}. \code{FolderNames[i]} is the name (e.g., Sample1-File1, or successive names separated by "/" signs,
 #' if BIN files are in subfolders, e.g. Sample1/File1) of the subfolder containing all informations on the BIN file of ID number \code{i}.
 #' The names in \code{FolderNames} are ordered following two rules:
 #' \itemize{
@@ -76,7 +81,7 @@
 #'
 #' \bold{** How to fill the} \code{BinPerSample} \bold{vector? **}\cr
 #'
-#' \code{BinPerSample}[i] correponds to the number of BIN files for the sample whose number ID is equal to \code{i}.\cr
+#' \code{BinPerSample[i]} correponds to the number of BIN files for the sample whose number ID is equal to \code{i}.\cr
 #' For example, let us consider a case with two samples (Sample1 and Sample2), with 2 BIN files for Sample1 and 1 for Sample2.
 #' In this case, \code{Nb_binfile}=3 and \code{Nb_sample}=2.
 #' The user may then set \code{FolderNames=c("Sample1-File1", "Sample1-File2", "Sample2-File1")}, in which case \code{"Sample1-1"} is the name of the subfolder containing the first BIN file
@@ -106,9 +111,11 @@
 #' You can save this list in a .RData object. To do this, you can use the fonction \code{\link{save}}.
 #' Then, to load this list you can use the function \code{\link{load}} (see example section fore more details).
 #'
-#' @author Claire Christophe, Anne Philippe, Guillaume Guerin
+#' @author Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
 #'
-#' @seealso \code{\link{read_BIN2R}}, \code{\link{Concat_DataFile}}, \code{\link{LT_RegenDose}}
+#' @note The function imports only BIN-file records which have been previously selected.
+#'
+#' @seealso \code{\link{read_BIN2R}}, \code{\link{combine_DataFiles}}, \code{\link{LT_RegenDose}}
 #' \code{\link{Age_Computation}}, \code{\link{AgeS_Computation}}, \code{\link{Palaeodose_Computation}}
 #'
 #' @examples
@@ -124,18 +131,22 @@
 #' # to load information containing DATA.RData object
 #' #load(file=c(paste(path,folder,"DATA.RData",sep="")))
 #'
+#' @md
 #' @export
+Generate_DataFile_MG <- function(
+  Path,
+  FolderNames,
+  Nb_sample,
+  Nb_binfile = length(FolderNames),
+  BinPerSample = rep(1, Nb_sample),
+  sepD = c(","),
+  sepDE = c(","),
+  sepDS = c(","),
+  sepR = c("="),
+  verbose = TRUE,
+  ...
+){
 
-Generate_DataFile_MG<-function(Path,FolderNames,
-                            Nb_sample,
-                            Nb_binfile=length(FolderNames),
-                            BinPerSample=rep(1,Nb_sample),
-                            sepD=c(","),
-                            sepDE=c(","),
-                            sepDS=c(","),
-                            sepR=c("=")){
-
-  #library(Luminescence)
 
   #--- create object needed
   #---------------------------------------
@@ -153,6 +164,22 @@ Generate_DataFile_MG<-function(Path,FolderNames,
   ddot=matrix(1,ncol=Nb_binfile,nrow=2)   # the dose rate recieved by the sample during the time,
   #   if there is various bin file for one sample, they must have the same ddot
 
+
+  # Fetch additional arguments for read_BIN2R()----------------------------------------------------
+
+  ##the internal preset
+  read_BIN2R.settings <- list(
+    duplicated.rm = TRUE,
+    verbose = verbose
+  )
+
+  ##overwrite the preset if needed
+  read_BIN2R.settings <- modifyList(x = read_BIN2R.settings, val = list(...))
+
+  ##combine list and remove duplicated entries
+  read_BIN2R.settings <- c(read_BIN2R.settings, list(...))
+  read_BIN2R.settings <- read_BIN2R.settings[!duplicated(names(read_BIN2R.settings))]
+
   #--- read informations
   #---------------------------------------
   bf=0
@@ -168,13 +195,16 @@ Generate_DataFile_MG<-function(Path,FolderNames,
       rule=read.csv(file=paste(Path,FolderNames[bf],"/rule.csv",sep=""),sep=sepR)
 
       # BIN file analysis
-      object <- Luminescence::read_BIN2R(paste(Path,FolderNames[bf],"/bin.BIN",sep=""),duplicated.rm = TRUE)
+      object <- Luminescence::read_BIN2R(
+        file = paste0(Path, FolderNames[bf]),
+        duplicated.rm = read_BIN2R.settings$duplicated.rm,
+        verbose =  read_BIN2R.settings$verbose
+      )[[1]]
 
       # csv file indicating position and disc selection and preparation to be red
       XLS_file[[2]]<-XLS_file[[1]]
       XLS_file[[1]] <- object@METADATA$FNAME[1:length(XLS_file[[1]])]
-      names(XLS_file)=c("BIN_FILE","DISC")
-      head(XLS_file)
+      names(XLS_file) <- c("BIN_FILE","DISC")
 
       # aliquot number
       J[bf]=length(XLS_file[,1])
