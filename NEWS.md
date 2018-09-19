@@ -1,3 +1,28 @@
+## BayLum 0.1.3 (Release date: 2018-09-14)
+
+### New functions
+* `plot_Ages()` this function replaces code used internally by the functions `AgeC14_Compution()` and `AgeS_Computation()`
+ to create an age overview plot. Before the user had no control over the appearance of age plot output. This is still the 
+ case if the functions `AgeC14_Compution()`, `AgeS_Computation()` and `Age_OSLC14()` are used (although internally only the function `plot_Ages()` is called), 
+ however, both functions now return a new list of class `BayLum.list` which is recognised by the function `plot_Ages()` and can be used to plot the typical age plot while providing several arguments for adjusting the plot output. 
+
+### Bugfixes & changes
+* The newly introduced function combine_DataFiles() did not work on R < 3.5.0, which caused an 
+error on CRAN; fixed.
+* The function `ScatterSamples()` is replaced by the function `plot_Scatterplots()`
+* All computation functions left text connections open after they have been exited; fixed. 
+* The output of `AgeC14_Compution()` and `AgeS_Computation()` gain a new class `BayLum.list`
+* Redundant code in `AgeC14_Compution()` and `AgeS_Computation()` has been removed 
+* The argument `Nb_chaines` was replaced by `n.chains` wherever it occured in the package (functions and documentation)
+* The function `plot_Scatterplots()` gained a new argument `plot_type`, allowing to switch between the default hexbin plot and 
+a function developed for 'BayLum` (`plot_type = "smoothScatter"`)
+* The function `plot_Scatterplots()` gained a new argument `plot_mode` to allow single xy plots 
+* The function `plot_Scatterplots()` now accepts a two column `data.frame` as inputbuild
+
+
+### Internals
+* Add new package dependency `KernSmooth` used in `plot_Scatterplots()`
+
 ## BayLum 0.1.2 (Release date: 2018-06-22)
 
 ### New functions
