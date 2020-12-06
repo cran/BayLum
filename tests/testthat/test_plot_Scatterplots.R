@@ -1,7 +1,6 @@
-context("Test plot_Scatterplots()")
-
 test_that("Full function test", {
   testthat::skip_on_cran()
+  local_edition(3)
 
   #load test data
   data(AgeS,envir = environment())
@@ -24,5 +23,18 @@ test_that("Full function test", {
 
   expect_warning(plot_Scatterplots(object = AgeS$Sampling, n.chains = 10),
                  regexp = "'n.chains' setting wrong. You have 3 chains, reset to default")
+
+  ##run single mode
+  expect_silent(plot_Scatterplots(object = AgeS$Sampling, plot_mode = "single", plot_type = "smoothScatter"))
+
+  ##provide data.frame as input
+  expect_silent(plot_Scatterplots(object = as.data.frame(AgeS$Sampling[[1]])))
+
+  ##stops
+  expect_error(plot_Scatterplots(object = as.data.frame(AgeS$Sampling[[1]][1])))
+  df <- as.data.frame(AgeS$Sampling[[1]])
+  df[[2]] <- as.character(df[[2]])
+  expect_error(plot_Scatterplots(object =df), regexp = "Only numeric values are allowed!")
+
 })
 

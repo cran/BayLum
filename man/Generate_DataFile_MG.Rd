@@ -5,10 +5,19 @@
 \title{Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements, a list of luminescence
 data and information before statistical analysis}
 \usage{
-Generate_DataFile_MG(Path, FolderNames, Nb_sample,
-  Nb_binfile = length(FolderNames), BinPerSample = rep(1, Nb_sample),
-  sepD = c(","), sepDE = c(","), sepDS = c(","), sepR = c("="),
-  verbose = TRUE, ...)
+Generate_DataFile_MG(
+  Path,
+  FolderNames,
+  Nb_sample,
+  Nb_binfile = length(FolderNames),
+  BinPerSample = rep(1, Nb_sample),
+  sepD = c(","),
+  sepDE = c(","),
+  sepDS = c(","),
+  sepR = c("="),
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{Path}{\link{character} (\strong{required}): the path to the project folder, containing one or more subfolders in which the BIN files
@@ -64,13 +73,14 @@ Then, to load this list you can use the function \code{\link{load}} (see example
 }
 \description{
 This function is used to generate, from the BIN file(s), a list of values of:
+}
+\details{
 \bold{Multi-grain} OSL intensities and associated uncertainties, regenerative doses, etc., which will be the input of the Bayesian models.
 To be easy-to-use, this function requires a rigorous organisation - all needed files should be arranged in one folder -
 of informations concerning each BIN file.\cr
 It is possible to process data for various samples simultaneously and to consider more
-than one BIN file per sample.
-}
-\details{
+than one BIN-file per sample.
+
 With \code{Path} and \code{FolderNames}, this function goes to the subfolders containing the BIN files and associated information to compute
 the luminescence data.\cr
 
@@ -96,7 +106,7 @@ and its variance (squared error), both in Gy;
 \item endTest,
 \item beginTestBackground,
 \item endTestBackground= same values as above, for the test dose response (typically the same values should be used);
-\item inflatePercent= uncertainty arising from the instrument reproducibility (typically 0.02, i.e. 2\%);
+\item inflatePercent= uncertainty arising from the instrument reproducibility (typically 0.02, i.e. 2\\%);
 \item nbOfLastCycleToRemove= number of cycles at the end of the SAR protocol which should not be included in the dose response curve fitting
 (typically 1 if only a recycling test is performed, or 2 if both recycling and IR depletion are tested).\cr
 }
@@ -133,14 +143,17 @@ For the general BIN-file structure, the reader is referred to the following webs
 The function \code{\link{read_BIN2R}} developped in \code{\link{Luminescence}} package is used to read the BIN files.
 }
 \note{
-The function imports only BIN-file records which have been previously selected.
+The function imports only BIN/BINX-file records which have been previously selected.
 }
 \examples{
-path<- system.file("extdata/FER1", "", package="BayLum")
-folder=""
+path <- system.file("extdata/FER1", "", package="BayLum")
+folder <- ""
 # give the number of sample
-nbsample=1
-DATA=Generate_DataFile_MG(Path=path,FolderNames=folder,Nb_sample=nbsample)
+nbsample <- 1
+DATA <- Generate_DataFile_MG(
+ Path = path,
+ FolderNames = folder,
+ Nb_sample = nbsample)
 str(DATA)
 
 # to save information in RData object in folder containing bin file
@@ -155,4 +168,9 @@ str(DATA)
 }
 \author{
 Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
+} 
+
+\section{How to cite}{
+Christophe, C., Kreutzer, S., Philippe, A., 2020. Generate_DataFile_MG(): Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements, a list of luminescence data and information before statistical analysis. In: Christophe, C., Philippe, A., Kreutzer, S., Guerin, G., 2020. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.2.0. https://CRAN.r-project.org/package=BayLum
 }
+

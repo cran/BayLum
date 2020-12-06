@@ -2,11 +2,12 @@
 #' data and information before statistical analysis
 #'
 #' This function is used to generate, from the BIN file(s), a list of values of:
+#'
 #' \bold{Multi-grain} OSL intensities and associated uncertainties, regenerative doses, etc., which will be the input of the Bayesian models.
 #' To be easy-to-use, this function requires a rigorous organisation - all needed files should be arranged in one folder -
 #' of informations concerning each BIN file.\cr
 #' It is possible to process data for various samples simultaneously and to consider more
-#' than one BIN file per sample.
+#' than one BIN-file per sample.
 #'
 #' @param Path [character] (**required**): the path to the project folder, containing one or more subfolders in which the BIN files
 #' are located. If it is not equal to "", it must be terminated by "/".
@@ -113,17 +114,20 @@
 #'
 #' @author Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
 #'
-#' @note The function imports only BIN-file records which have been previously selected.
+#' @note The function imports only BIN/BINX-file records which have been previously selected.
 #'
 #' @seealso \code{\link{read_BIN2R}}, \code{\link{combine_DataFiles}}, \code{\link{LT_RegenDose}}
 #' \code{\link{Age_Computation}}, \code{\link{AgeS_Computation}}, \code{\link{Palaeodose_Computation}}
 #'
 #' @examples
-#' path<- system.file("extdata/FER1", "", package="BayLum")
-#' folder=""
+#' path <- system.file("extdata/FER1", "", package="BayLum")
+#' folder <- ""
 #' # give the number of sample
-#' nbsample=1
-#' DATA=Generate_DataFile_MG(Path=path,FolderNames=folder,Nb_sample=nbsample)
+#' nbsample <- 1
+#' DATA <- Generate_DataFile_MG(
+#'  Path = path,
+#'  FolderNames = folder,
+#'  Nb_sample = nbsample)
 #' str(DATA)
 #'
 #' # to save information in RData object in folder containing bin file
@@ -152,16 +156,16 @@ Generate_DataFile_MG <- function(
   #---------------------------------------
   # BaSAR observations for samples
   LT=list()     # corresponding to observation of natural and regenerated luminescence signal : N_{k,j}^(i) per sample
-  sLT=list()    # correspondind to error of observation of L : sigma_{N_{K,j}^(i)} per sample
-  ITimes=list() # corresponding to obsevation : t_{k,j}^(i) per sample
+  sLT=list()    # corresponding to error of observation of L : sigma_{N_{K,j}^(i)} per sample
+  ITimes=list() # corresponding to observation : t_{k,j}^(i) per sample
 
   # information on bin file
   dLab=matrix(1,ncol=Nb_binfile,nrow=2)  # corresponding to dose source rate of the lab : d_{lab} per sample
-  regDose=list()          # computed regenerated dose multiplying the 2 aboves lines per sample
+  regDose=list()          # computed regenerated dose multiplying the 2 above lines per sample
   J=rep(0,Nb_binfile)     # aliquot number per sample
   Nb_measurement=rep(0,Nb_binfile) # measurement number per aliquot
   K=rep(0,Nb_binfile)     # point number considered for the growth curve
-  ddot=matrix(1,ncol=Nb_binfile,nrow=2)   # the dose rate recieved by the sample during the time,
+  ddot=matrix(1,ncol=Nb_binfile,nrow=2)   # the dose rate received by the sample during the time,
   #   if there is various bin file for one sample, they must have the same ddot
 
 
@@ -201,7 +205,7 @@ Generate_DataFile_MG <- function(
         verbose =  read_BIN2R.settings$verbose
       )[[1]]
 
-      # csv file indicating position and disc selection and preparation to be red
+      # csv file indicating position and disc selection and preparation to be read
       XLS_file[[2]]<-XLS_file[[1]]
       XLS_file[[1]] <- object@METADATA$FNAME[1:length(XLS_file[[1]])]
       names(XLS_file) <- c("BIN_FILE","DISC")
@@ -218,18 +222,27 @@ Generate_DataFile_MG <- function(
       # information for Lx/Tx
       prop=(length(c(rule[3,1]:rule[4,1]))/length(c(rule[1,1]:rule[2,1])))
 
-      #--- selection of measurement corresponding to the selection done
+      #--- selection of record ID corresponding to the selection done
       #---------------------------------------
-      ind=c()
-      for(j in 1:J[bf]){
-        ind=c(ind,object@METADATA[object@METADATA[,"POSITION"]== XLS_file[j,2] & object@METADATA[,"LTYPE"]== "OSL" & object@METADATA[,"SEL"]==TRUE,1])
-      }
+      ind <- object@METADATA[(object@METADATA[["POSITION"]] %in% XLS_file[[2]]) & object@METADATA[["SEL"]], "ID"]
+
       # what is ind...
-      (object@METADATA[ind[1:20],c("POSITION","IRR_TIME")])
+      #print(object@METADATA[ind[1:20],c("POSITION","IRR_TIME")])
 
       # regeneration dose number
-      Nb_measurement[bf]=length(ind)/J[bf]
-      K[bf]=Nb_measurement[bf]/2-(rule[10,1]+1)
+      Nb_measurement[bf] <- length(ind)/J[bf]
+      if(Nb_measurement[bf]%%2 != 0)
+        stop("[Generate_DataFile_MG()] The number of curves is not a multiple of 2, please check your curve selection!", call. = FALSE)
+
+      K[bf] <- Nb_measurement[bf]/2-(rule[10,1]+1)
+      if (K[bf] < 0) {
+        stop(
+          paste0(
+            "[Generate_DataFile_MG()] In file ", FolderNames[bf],"/rule.csv the parameter 'nbOfLastCycleToRemove' + 1 is larger than the number of Lx/Tx cycles.\n\t(This usually indicates that you try to discard more Lx/Tx cycles than you have selected or stored in the BIN/BINX-file.)"
+          ),
+          call. = FALSE
+        )
+      }
 
       #--- check if K, Nb_measurement, prop are integer
       #---------------------------------------
@@ -263,12 +276,6 @@ Generate_DataFile_MG <- function(
             warning(paste("problem aliquot: position:",XLS_file[ii,2]))
             ii=J[bf]+1}
         }
-      }
-
-      if(K[bf]<0){
-        warning(paste("Problem folder: ",FolderNames[bf],
-                      ". Check in rule.csv file if the (nbOfLastCycleToRemove + 1) is not hihger than the (measurement number of Lx and Tx divided by 2).",sep=""),
-                call. = FALSE)
       }
 
       #--- computation of irradiation time
@@ -368,4 +375,3 @@ Generate_DataFile_MG <- function(
   Liste=list("LT"=LT,"sLT"=sLT,"ITimes"=ITimes,"dLab"=dLab,"ddot_env"=ddot,"regDose"=regDose,"J"=J,"K"=K,"Nb_measurement"=Nb_measurement)
   return(Liste)
 }
-

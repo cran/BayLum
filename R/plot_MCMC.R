@@ -4,7 +4,7 @@
 #' corresponding densities. In particular it displays the posterior distributions of the age, if it is calculated,
 #' palaeodose and the equivalent dose dispersion parameters of the sample. The function output is very
 #' similar to plot output produced with the 'coda' package, but tailored to meet the needs in
-#' the context of the 'BayLum' package.
+#' the context of the `'BayLum'` package.
 #'
 #' The function is used in the function [Age_Computation], [AgeS_Computation]
 #' and [Palaeodose_Computation], but can be used also as standalone plot function.
@@ -18,7 +18,7 @@
 #' @param variables [character] (with default): Variables in your [coda::mcmc] object to be plotted.
 #'
 #' @param axes_labels [character] (with default): Axes labels used for the trace and density plots. The labels should
-#' be provided as named [character] [vector] with the parameter names as the names used to asign the axes labelling.
+#' be provided as named [character] [vector] with the parameter names as the names used to assign the axes labelling.
 #' The labelling for the x-axis (trace plots) and y-axis (density plot) cannot be modified.
 #'
 #' @param plot_single [logical] (with default): Enables/disables the single plot mode of the function, i.e.
@@ -35,7 +35,7 @@
 #'
 #' @param rug [logical] (with default): Enable/disables [rug] under density plots
 #'
-#' @param ... further arguments that can be passed to modifiy the plot output. Supported arguments are
+#' @param ... further arguments that can be passed to modify the plot output. Supported arguments are
 #' `lwd`, `lty`, `col`, `type`, `cex`,`mtext`, cf. [mtext] for `mtext` and [plot.default] for the other
 #' arguments.
 #'
@@ -44,12 +44,12 @@
 #' Two plots: Traces of the MCMC chains and the corresponding density plots. This plots
 #' are similar to [coda::traceplot] and [coda::densplot].
 #'
-#' @section Function version: 0.1.1
+#' @section Function version: 0.1.4
 #'
 #' @keywords dplot
 #'
-#' @author Sebastian Kreutzer, IRAMAT-CRP2A, Université Bordeaux Montaigne (France). This function
-#' is a re-written version of the function `MCMC_plot()` by Claire Christophe
+#' @author Sebastian Kreutzer, Geography & Earth Sciences, Aberystwyth University (United Kingdom). This function
+#' is a re-written version of the function 'MCMC_plot()' by Claire Christophe
 #'
 #' @seealso [Age_Computation], [AgeS_Computation], [Palaeodose_Computation],
 #' [rjags::coda.samples] and [rjags] packages.
@@ -68,7 +68,7 @@ plot_MCMC <- function(
   variables = c("A", "D", "sD"),
   axes_labels = c("A" = "Age (ka)", "D" = "D (Gy)", "sD" = "sD (Gy)"),
   n.chains = NULL,
-  n.iter = 1000L,
+  n.iter = 1000,
   smooth = FALSE,
   rug = TRUE,
   plot_single = FALSE,
@@ -80,21 +80,29 @@ plot_MCMC <- function(
     if(class(object) == "mcmc"){
       object <- coda::as.mcmc.list(object)
 
-    }else{
-      stop("[plot_MCMC()] 'sample' has to be of class 'mcmc.list' or 'mcmc'!", call. = FALSE)
+    }else if(class(object) == "BayLum.list"){
+      if(!is.null(attributes(object)$originator)){
+        ##select what to do for different functions
+        switch(attributes(object)$originator,
+               AgeS_Computation = object <- object$Sampling
+        )
 
+      }
     }
 
   }
 
+  if(class(object) != "mcmc.list")
+    stop("[plot_MCMC()] 'sample' has to be of class 'mcmc.list' or 'mcmc'!", call. = FALSE)
+
   # Extract wanted parameters -------------------------------------------------------------------
-  if(!all(gsub(coda::varnames(object), pattern = "\\[.\\]" ,replacement = "") %in% variables)){
-    sel <- which(gsub(coda::varnames(object), pattern = "\\[.\\]" ,replacement = "") %in% variables)
+  if(!all(gsub(coda::varnames(object), pattern = "\\[.+\\]" ,replacement = "") %in% variables)){
+    sel <- which(gsub(coda::varnames(object), pattern = "\\[.+\\]" ,replacement = "") %in% variables)
 
     if(length(sel) == 0){
-      allowed <- unique(gsub(coda::varnames(object), pattern = "\\[.\\]" ,replacement = ""))
-      stop(paste0("[plot_MCMC()] Invalid 'variables', they did not match your dataset. Variable names of your dataset: ",
-                  paste(allowed, collapse = ", "), "."), call. = FALSE)
+      sel <- unique(gsub(coda::varnames(object), pattern = "\\[.\\]", replacement = ""))
+      warning(paste0("[plot_MCMC()] Invalid 'variables'. Set to found variables from your dataset: ",
+                  paste(sel, collapse = ", "), "."), call. = FALSE)
     }
 
     ##create new object
@@ -167,7 +175,7 @@ plot_MCMC <- function(
 
     ##create a list of ylab for the traces using a lookup table
     ##if something is not yet in our lookup table it will produce NA
-    ylab_traces <- as.character(axes_labels[gsub(coda::varnames(object), pattern = "\\[.\\]" ,replacement = "")])
+    ylab_traces <- as.character(axes_labels[gsub(coda::varnames(object), pattern = "\\[.+\\]" ,replacement = "")])
 
     ##(2) density plots
     density_list <- lapply(traces_list, function(v){
@@ -183,7 +191,6 @@ plot_MCMC <- function(
 
 
   # Plotting ------------------------------------------------------------------------------------
-
   ##extract real variable names
   ##in our case, e.g, A[1] and A[2] ... two samples
   ##or just A, D, sD for one sample
@@ -205,8 +212,16 @@ plot_MCMC <- function(
 
   }
 
+
   ##order output according to the sample names (here number, e.g., A[1], A[2], ...)
-  o <- order(sample_info)
+  if(suppressWarnings(!any(is.na(as.numeric(sample_info))))){
+    o <- order(as.numeric(sample_info))
+
+  }else{
+    o <- order(sample_info)
+
+  }
+
 
   ##expand sample_names the right length
   if(!is.null(sample_names)){
@@ -222,7 +237,7 @@ plot_MCMC <- function(
 
   ##set mfrow if no single plot is wanted
   if(!plot_single)
-    par(mfrow = c(length(unique(gsub(coda::varnames(object), pattern = "\\[.\\]" ,replacement = ""))), 2))
+    par(mfrow = c(length(unique(gsub(coda::varnames(object), pattern = "\\[.+\\]" ,replacement = ""))), 2))
 
   ##plot everything in a loop
   for(v in o){
