@@ -7,7 +7,7 @@
 \title{Chronological Bayesian Models Integrating Optically Stimulated Luminescence and C-14 Dating\cr
 
 \if{html}{
-\figure{BayLum_logo.png}{options: width="50px"}\cr
+\figure{BayLum_logo.png}{options: width="50"}\cr
 }}
 \description{
 A collection of various R functions for Bayesian analysis of luminescence
@@ -33,8 +33,5 @@ We can also estimate chronology containing 14C age and OSL samples with the func
 \references{
 Philippe, A., Guérin, G., Kreutzer, S., 2019. BayLum - An R package for Bayesian analysis of OSL ages:
 An introduction. Quaternary Geochronology 49, 16–24. \doi{10.1016/j.quageo.2018.05.009}
-}
-\author{
-Claire Christophe, Anne Philippe, Sebastian Kreutzer, Guillaume Guérin
 }
 \keyword{package}

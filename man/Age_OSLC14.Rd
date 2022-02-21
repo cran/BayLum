@@ -31,8 +31,10 @@ Age_OSLC14(
   Iter = 50000,
   t = 5,
   n.chains = 3,
+  jags_method = "rjags",
   quiet = FALSE,
-  roundingOfValue = 3
+  roundingOfValue = 3,
+  ...
 )
 }
 \arguments{
@@ -147,9 +149,15 @@ considered for sampling the posterior distribution (for more information see [\l
 \item{n.chains}{\link{numeric} (with default): number of independent chains for the model
 (for more information see [\link[rjags:jags.model]{rjags::jags.model}).}
 
+\item{jags_method}{\link{character} (with default): select computation method, supported are  \code{"rjags"} (the default) and \code{rjparallel}
+using package \code{'runjags'}. The latter option uses the function \link[runjags:autorun.jags]{runjags::autorun.jags} to allow a full automated processing.}
+
 \item{quiet}{\link{logical} (with default): enables/disables \link{rjags} messages}
 
 \item{roundingOfValue}{\link{integer} (with default):  Integer indicating the number of decimal places to be used, default = 3.}
+
+\item{...}{further arguments that can be passed to control the Bayesian process, see details
+for supported arguments}
 }
 \value{
 \bold{NUMERICAL OUTPUT}\cr
@@ -190,9 +198,9 @@ On each line, the plot on the left represents the MCMC trajectories, and the one
 }
 }
 \description{
-This function compute an age of OSL data of at least two samples and calibrate
+This function computes an age of OSL data consisting of at least two samples and calibrate
 C-14 ages of samples to get an age (in ka).\cr
-Age of OSL data are computed according to the model given in Combes and Philippe (2017).
+Ages of OSL data are computed according to the model given in Combes and Philippe (2017).
 Single-grain or Multi-grain OSL measurements can be analysed simultaneously
 (with output of \link{Generate_DataFile} or \link{Generate_DataFile_MG} or both of them using \link{combine_DataFiles}).
 Samples, for which data is available in several BIN files, can be analysed.\cr
@@ -200,7 +208,7 @@ For C-14 data, the user can choose one of the following radiocarbon calibration 
 Northern or Southern Hemisphere or marine atmospheric.
 }
 \details{
-Note that there is tree type of arguments in the previous list.
+Note that there are three types of arguments in the previous list.
 There are arguments for information concerning only OSL samples: \code{DATA}, \code{BinPerSample}, \code{THETA},
 \code{sepTHETA}, \code{LIN_fit}, \code{Origin_fit}, \code{distribution}.
 
@@ -211,9 +219,21 @@ There are arguments for information concerning all the samples: \code{Nb_sample}
 \code{PriorAge}, \code{SavePdf}, \code{OutputFileName}, \code{OutputFilePath}, \code{SaveEstimates}, \code{OutputTableName},
 \code{OutputTablePath}, \code{StratiConstraints}, \code{sepSC}.\cr
 
-\bold{** How to fill} \code{StratiConstraints} \bold{? **}\cr
+\strong{Supported \code{...} arguments}
+\tabular{lllll}{
+ARGUMENT \tab INPUT \tab METHOD \tab DEFAULT \tab DESCRIPTION\cr
+\code{max.time} \tab \link{character} \tab \code{rjparallel} \tab \code{Inf} \tab maximum allowed processing time, e.g.,
+\verb{10m} for 10 minutes (cf. \link[runjags:autorun.jags]{runjags::autorun.jags})\cr
+\code{interactive} \tab \link{logical} \tab \code{rjparallel} \tab \code{FALSE} \tab enable/disable interactive mode (cf. \link[runjags:autorun.jags]{runjags::autorun.jags})\cr
+\code{startburnin} \tab \link{integer} \tab \code{rjparallel} \tab  \code{4000} \tab number of burn-in iterations (cf. \link[runjags:autorun.jags]{runjags::autorun.jags}) \cr
+\code{startsample} \tab \link{integer} \tab \code{rjparallel} \tab \code{10000} \tab total number of samples to assess convergence
+(cf. \link[runjags:autorun.jags]{runjags::autorun.jags}) \cr
+\code{inits} \tab named \link{list} \tab \code{rjparallel} \tab \code{NA} \tab fine control over random seeds and random number generator \link[runjags:autorun.jags]{runjags::autorun.jags}
+}
 
-If there is stratigraphic relations between samples, \bold{14C estimate age in \code{Data_C14Cal} must be ordered by order of increasing ages,
+\strong{How to fill `StratiConstraints?}\cr
+
+If there are stratigraphic relations between samples, \bold{14C estimate age in \code{Data_C14Cal} must be ordered by order of increasing ages,
 as informations in \code{DATA}}. Names in \code{SampleNames} must be ordered and corresponds to the order in \code{Data_C14Cal} and in \code{DATA},
 also if it is needed to mix names of OSL samples and 14C samples.
 
@@ -230,18 +250,18 @@ Otherwise, \code{StratiConstraints[j,i]=0}.
 }
 Note that \code{StratiConstraints_{2:Nb_sample+1,1:Nb_sample}} is a upper triangular matrix.
 
-The user can also use \code{\link{SCMatrix}}  or \code{\link{SC_Ordered}} (if all samples are ordered) function to construc
+The user can also use \code{\link{SCMatrix}}  or \code{\link{SC_Ordered}} (if all samples are ordered) function to construct
 the \code{StratiConstraints} matrix.
 
-The user can also refer to a csv file that containts the relation between samples as defined above.
-The user must take care about the separator used in the csv file using the argument \code{sepSC}.\cr
+The user can also refer to a csv file that contains the relation between samples as defined above.
+The user must be careful about which separator is used in the csv file using the argument \code{sepSC}.\cr
 
-\bold{** How to fill} \code{THETA} \bold{covariance matrix concerning common and individual error? **}\cr
+\strong{How to fill \code{THETA} covariance matrix concerning common and individual error?}\cr
 
 If systematic errors are considered, the user can fill the \code{THETA} matrix as follow.
 \itemize{
 \item row number of \code{THETA} is equal the column number, equal to \code{Nb_sample}.
-\item For all \code{i in {1,...,Nb_sample}}, \code{THETA[i,i]} containts individual error
+\item For all \code{i in {1,...,Nb_sample}}, \code{THETA[i,i]} contains individual error
 plus systematic error of the sample whose number ID is equal to \code{i}.
 \item For all \code{i,j in {1,...,Nb_sample}} and \code{i} different from \code{j} ,
 \code{THETA[i,j]} contains common error between samples whose number ID are equal to \code{i} and \code{j}.
@@ -250,7 +270,7 @@ Note that \code{THETA[i,j]} is a symmetric matrix.
 
 The user can also refer to a .csv file that contains the errors as defined above.\cr
 
-\bold{** Option on growth curves **}\cr
+\strong{Option on growth curves}\cr
 
 As for \code{\link{Age_Computation}} and \code{\link{Palaeodose_Computation}}, the user can choose from 4 dose response curves:
 \itemize{
@@ -284,7 +304,7 @@ for all \code{x} in IR+, \code{f(x)=a(1-exp(-x/b))}; select
 }
 }
 
-\bold{** Option on equivalent dose distribution around the palaeodose **}\cr
+\strong{Option on equivalent dose distribution around the palaeodose}\cr
 
 The use can choose between :
 \itemize{
@@ -294,13 +314,13 @@ The use can choose between :
 \item \code{lognormal_M}: a log-normal distribution with \bold{M}edian equal to the palaeodose of the sample
 }
 
-\bold{** More precision on \code{Model} **}\cr
+\strong{More precision on \code{Model}}\cr
 
 We propose two models "full" or "naive". If \code{Model='full'} that means measurement error and error on calibration curve are taken account in
 the Bayesian model; if \code{Model="naive"} that means only error on measurement are taken account in the mode.
 
-More precisely, the model considered here, as the one developped by Christen, JA (1994), assume multiplicative effect of errors to address the
-problem of outliers. In addition, to not penalyse variables that are not outliers and damage theirs estimation,
+More precisely, the model considered here, as the one developed by Christen, JA (1994), assume multiplicative effect of errors to address the
+problem of outliers. In addition, to not penalise variables that are not outliers and damage theirs estimation,
 we introduce a structure of mixture, that means only variable that are considered as outlier have in addition a multiplicative error.
 }
 \note{
@@ -332,7 +352,7 @@ Age <- Age_OSLC14(DATA=Data,Data_C14Cal=C14Cal,Data_SigmaC14Cal=SigmaC14Cal,
 } 
 
 \section{How to cite}{
-Christophe, C., Philippe, A., Guerin, G., Kreutzer, S., 2020. Age_OSLC14(): Bayesian analysis for age estimation of OSL measurements and C-14 ages of various samples. In: Christophe, C., Philippe, A., Kreutzer, S., Guerin, G., 2020. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.2.0. https://CRAN.r-project.org/package=BayLum
+Christophe, C., Philippe, A., Guerin, G., Kreutzer, S., Baumgarten, F.H., 2022. Age_OSLC14(): Bayesian analysis for age estimation of OSL measurements and C-14 ages of various samples. In: Christophe, C., Philippe, A., Kreutzer, S., Guerin, G., 2022. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.2.1. https://CRAN.r-project.org/package=BayLum
 }
 
 \references{
@@ -348,5 +368,5 @@ Hogg AG, Hua Q, Blackwell PG, Niu M, Buck CE, Guilderson TP, Heaton TJ, Palmer J
 \link{rjags}, \link{plot_MCMC}, \link{SCMatrix}, \link{plot_Ages}
 }
 \author{
-Claire Christophe, Anne Philippe, Guillaume Guerin, Sebastian Kreutzer
+Claire Christophe, Anne Philippe, Guillaume Guerin, Sebastian Kreutzer, Frederik Harly Baumgarten
 }

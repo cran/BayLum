@@ -16,22 +16,23 @@ Generate_DataFile_MG(
   sepDS = c(","),
   sepR = c("="),
   verbose = TRUE,
+  force_run1_at_a_time = FALSE,
   ...
 )
 }
 \arguments{
-\item{Path}{\link{character} (\strong{required}): the path to the project folder, containing one or more subfolders in which the BIN files
-are located. If it is not equal to "", it must be terminated by "/".}
+\item{Path}{\link{character} (\strong{required}): the path to the project folder, containing one or more sub folders in which the BIN files
+are located. If it is not equal to \code{""}, it must end with \code{"/"}.}
 
 \item{FolderNames}{\link{character} (\strong{required}) vector: list of names of the sub-folders containing the BIN files
 \itemize{
-\item each subfolder must contain a BIN file and associated csv files.
-See details for more informations on associated csv files required in the subfolders.
+\item each sub folder must contain a BIN file and associated csv files.
+See details for more informations on associated csv files required in the sub folders.
 If there is more than one BIN file per sample, see the details section for instructions regarding how to correctly fill the
 \code{FolderNames} vector.
 }}
 
-\item{Nb_sample}{\link{integer} (\strong{required}): number of samples.}
+\item{Nb_sample}{\link{integer} (\strong{required}): number of}
 
 \item{Nb_binfile}{\link{integer} (with default): number of BIN files. It must be equal to, or greater than \code{Nb_sample}.}
 
@@ -49,6 +50,16 @@ Otherwise, this vector must contain a list of 1 values.}
 \item{sepR}{\link{character} (with default): column separator in the Rule.csv files.}
 
 \item{verbose}{\link{logical} (with default): enable/disable verbose mode}
+
+\item{force_run1_at_a_time}{(\emph{with default}): if set to \code{TRUE}, the order of the records is
+pushed to follow the one "Run 1 at a time" order (this is, all sequence steps were performed on
+one aliquot before moving to the next aliquot), regardless of their original sequence.
+The default is \code{FALSE} because \code{'BayLum'} assumes that the sample was measured with the
+"Run 1 at a time" option (only Risø readers, lexsyg readers do not have another option).
+In other words, the argument allows you to automatically correct your input data to follow the order \code{'BayLum'} expects.
+Why isn't the default value \code{TRUE}?. Because this re-ordering must fail
+if a measurement position was used more than once for different samples!
+This typically happens when different BIN/BINX files are merged.}
 
 \item{...}{further arguments that can be passed to \link[Luminescence:read_BIN2R]{Luminescence::read_BIN2R}.}
 }
@@ -68,7 +79,7 @@ A list containing the following objects:
 
 \bold{** How to save this list **}
 
-You can save this list in a .RData object. To do this, you can use the fonction \code{\link{save}}.
+You can save this list in a .RData object. To do this, you can use the function \code{\link{save}}.
 Then, to load this list you can use the function \code{\link{load}} (see example section fore more details).
 }
 \description{
@@ -140,7 +151,7 @@ for the second sample. In this case, \code{BinPerSample=c(2,1)}.
 
 For the general BIN-file structure, the reader is referred to the following website:  \code{http://www.nutech.dtu.dk/}
 
-The function \code{\link{read_BIN2R}} developped in \code{\link{Luminescence}} package is used to read the BIN files.
+The function \code{\link{read_BIN2R}} developed in \code{\link{Luminescence}} package is used to read the BIN files.
 }
 \note{
 The function imports only BIN/BINX-file records which have been previously selected.
@@ -171,6 +182,6 @@ Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
 } 
 
 \section{How to cite}{
-Christophe, C., Kreutzer, S., Philippe, A., 2020. Generate_DataFile_MG(): Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements, a list of luminescence data and information before statistical analysis. In: Christophe, C., Philippe, A., Kreutzer, S., Guerin, G., 2020. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.2.0. https://CRAN.r-project.org/package=BayLum
+Christophe, C., Kreutzer, S., Philippe, A., 2022. Generate_DataFile_MG(): Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements, a list of luminescence data and information before statistical analysis. In: Christophe, C., Philippe, A., Kreutzer, S., Guerin, G., 2022. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.2.1. https://CRAN.r-project.org/package=BayLum
 }
 

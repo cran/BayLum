@@ -9,23 +9,40 @@
 #' It is possible to process data for various samples simultaneously and to consider more
 #' than one BIN-file per sample.
 #'
-#' @param Path [character] (**required**): the path to the project folder, containing one or more subfolders in which the BIN files
-#' are located. If it is not equal to "", it must be terminated by "/".
+#' @param Path [character] (**required**): the path to the project folder, containing one or more sub folders in which the BIN files
+#' are located. If it is not equal to `""`, it must end with `"/"`.
+#'
 #' @param FolderNames [character] (**required**) vector: list of names of the sub-folders containing the BIN files
-#' - each subfolder must contain a BIN file and associated csv files.
-#' See details for more informations on associated csv files required in the subfolders.
+#' - each sub folder must contain a BIN file and associated csv files.
+#' See details for more informations on associated csv files required in the sub folders.
 #' If there is more than one BIN file per sample, see the details section for instructions regarding how to correctly fill the
 #' \code{FolderNames} vector.
-#' @param Nb_sample [integer] (**required**): number of samples.
+#'
+#' @param Nb_sample [integer] (**required**): number of
+#'
 #' @param Nb_binfile [integer] (with default): number of BIN files. It must be equal to, or greater than \code{Nb_sample}.
+#'
 #' @param BinPerSample [integer] vector (with default): vector with the number of BIN files per sample.
 #' The length of this vector must be equal to \code{Nb_sample} and the sum of entries of this vector must be equal to \code{Nb_binfile}.
 #' If there is more than one BIN file per sample, see the details section for instructions regarding how to correctly fill \code{BinPerSample} vector.
 #' Otherwise, this vector must contain a list of 1 values.
 #' @param sepD [character] (with default): column separator in the DiscPose.csv files.
+#'
 #' @param sepDE [character] (with default): column separator in the DoseEnv.csv files.
+#'
 #' @param sepDS [character] (with default): column separator in the DoseLab.csv files.
+#'
 #' @param sepR [character] (with default): column separator in the Rule.csv files.
+#'
+#' @param force_run1_at_a_time (*with default*): if set to `TRUE`, the order of the records is
+#' pushed to follow the one "Run 1 at a time" order (this is, all sequence steps were performed on
+#' one aliquot before moving to the next aliquot), regardless of their original sequence.
+#' The default is `FALSE` because `'BayLum'` assumes that the sample was measured with the
+#' "Run 1 at a time" option (only Risø readers, lexsyg readers do not have another option).
+#' In other words, the argument allows you to automatically correct your input data to follow the order `'BayLum'` expects.
+#' Why isn't the default value `TRUE`?. Because this re-ordering must fail
+#' if a measurement position was used more than once for different samples!
+#' This typically happens when different BIN/BINX files are merged.
 #'
 #' @param verbose [logical] (with default): enable/disable verbose mode
 #'
@@ -92,7 +109,8 @@
 #'
 #' For the general BIN-file structure, the reader is referred to the following website:  \code{http://www.nutech.dtu.dk/}
 #'
-#' The function \code{\link{read_BIN2R}} developped in \code{\link{Luminescence}} package is used to read the BIN files.
+#' The function \code{\link{read_BIN2R}} developed in \code{\link{Luminescence}} package is used to read the BIN files.
+#'
 #'
 #' @return A list containing the following objects:
 #' \itemize{
@@ -109,7 +127,7 @@
 #'
 #' \bold{** How to save this list **}
 #'
-#' You can save this list in a .RData object. To do this, you can use the fonction \code{\link{save}}.
+#' You can save this list in a .RData object. To do this, you can use the function \code{\link{save}}.
 #' Then, to load this list you can use the function \code{\link{load}} (see example section fore more details).
 #'
 #' @author Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
@@ -148,6 +166,7 @@ Generate_DataFile_MG <- function(
   sepDS = c(","),
   sepR = c("="),
   verbose = TRUE,
+  force_run1_at_a_time = FALSE,
   ...
 ){
 
@@ -167,7 +186,6 @@ Generate_DataFile_MG <- function(
   K=rep(0,Nb_binfile)     # point number considered for the growth curve
   ddot=matrix(1,ncol=Nb_binfile,nrow=2)   # the dose rate received by the sample during the time,
   #   if there is various bin file for one sample, they must have the same ddot
-
 
   # Fetch additional arguments for read_BIN2R()----------------------------------------------------
 
@@ -190,7 +208,7 @@ Generate_DataFile_MG <- function(
   for(i in 1:Nb_sample){
     for(nb in 1:BinPerSample[i]){
       bf=bf+1
-      print(paste("File being read:",FolderNames[bf]))
+      if(verbose) message(paste("File being read:",FolderNames[bf]))
 
       # read files....
       XLS_file <- read.csv(file=paste(Path,FolderNames[bf],"/Disc.csv",sep=""),sep=sepD)
@@ -205,8 +223,16 @@ Generate_DataFile_MG <- function(
         verbose =  read_BIN2R.settings$verbose
       )[[1]]
 
+      ##sort dataset in correct order by aliquots
+      if(force_run1_at_a_time) {
+        o <- object@METADATA[["ID"]][order(object@METADATA[["POSITION"]])]
+        object@METADATA <- object@METADATA[o,]
+        object@DATA <- object@DATA[o]
+        object@METADATA[["ID"]] <- 1:nrow(object@METADATA)
+      }
+
       # csv file indicating position and disc selection and preparation to be read
-      XLS_file[[2]]<-XLS_file[[1]]
+      XLS_file[[2]] <- XLS_file[[1]]
       XLS_file[[1]] <- object@METADATA$FNAME[1:length(XLS_file[[1]])]
       names(XLS_file) <- c("BIN_FILE","DISC")
 
@@ -277,6 +303,7 @@ Generate_DataFile_MG <- function(
             ii=J[bf]+1}
         }
       }
+
 
       #--- computation of irradiation time
       #---------------------------------------
@@ -372,6 +399,18 @@ Generate_DataFile_MG <- function(
 
   #--- return information needed to compute BaSAR analysis
   #---------------------------------------
-  Liste=list("LT"=LT,"sLT"=sLT,"ITimes"=ITimes,"dLab"=dLab,"ddot_env"=ddot,"regDose"=regDose,"J"=J,"K"=K,"Nb_measurement"=Nb_measurement)
+  Liste = list(
+    "LT" = LT,
+    "sLT" = sLT,
+    "ITimes" = ITimes,
+    "dLab" = dLab,
+    "ddot_env" = ddot,
+    "regDose" = regDose,
+    "J" = J,
+    "K" = K,
+    "Nb_measurement" = Nb_measurement
+  )
   return(Liste)
 }
+
+

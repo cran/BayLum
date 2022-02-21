@@ -10,15 +10,13 @@
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4311266.svg)](https://doi.org/10.5281/zenodo.4311266)
 [![CRAN](https://www.r-pkg.org/badges/version/BayLum)](https://CRAN.R-project.org/package=BayLum)
 [![cran
 checks](https://cranchecks.info/badges/worst/BayLum)](https://cranchecks.info/pkgs/BayLum)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/BayLum)](https://www.r-pkg.org/pkg/BayLum)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/ai37938e8sij09ab?svg=true)](https://ci.appveyor.com/project/archeometre/baylum)
-[![Build
-Status](https://travis-ci.org/crp2a/BayLum.svg?branch=master)](https://travis-ci.org/crp2a/BayLum)
-[![codecov](https://codecov.io/gh/crp2a/BayLum/branch/master/graph/badge.svg)](https://codecov.io/gh/crp2a/BayLum)
+[![R-CMD-check](https://github.com/crp2a/BayLum/workflows/GitHub%20Actions%20CI/badge.svg)](https://github.com/crp2a/BayLum/actions)
+[![codecov](https://app.codecov.io/gh/crp2a/BayLum/branch/master/graph/badge.svg)](https://app.codecov.io/gh/crp2a/BayLum)
 
 An R package for chronological **Bay**esian models integrated for
 Optically Stimulated (OSL) **Lum**inescence Dating
@@ -37,7 +35,7 @@ To install a developer build other than ‘master’, replace the term
 ‘master’ in the codeline by the name of the wanted developer build.
 
 **Please note that you need to have
-[JAGS](http://mcmc-jags.sourceforge.net) installed on your computer**
+[JAGS](https://mcmc-jags.sourceforge.io) installed on your computer**
 
 ## Note
 
