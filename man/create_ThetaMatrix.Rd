@@ -23,13 +23,13 @@ vector is not important, but the naming!
 \item{...}{further arguments that can be passed to \link[utils:read.table]{utils::read.table} (for the CSV-file import)}
 }
 \value{
-A symetric \eqn{Theta} matrix or if \code{input} is missing, a \link{data.frame} with an input
+A symmetric \eqn{Theta} matrix or if \code{input} is missing, a \link{data.frame} with an input
 template
 }
 \description{
 Create the \eqn{\Theta} matrix with the shared uncertainties
 that can used as input in, e.g., \link{AgeS_Computation} and \link{Age_OSLC14} which is used for the
-covariance matrix \eqn{\Sigma} (Combès \& Philippe, 2017)
+covariance matrix \eqn{\Sigma} (Combès & Philippe, 2017)
 }
 \details{
 The function intends to ease the creation of the \eqn{Theta} matrix, which cannot be
@@ -38,7 +38,7 @@ The relationship between the covariance matrix  \eqn{Sigma} and \eqn{Theta} is g
 
 \deqn{\Sigma_ij = A_i * A_j * \Theta_ij}
 
-For details see Combès \& Philippe, 2017 and Guérin et al. (under review).
+For details see Combès & Philippe, 2017 and Guérin et al. (2021).
 
 \strong{Input modes}
 
@@ -70,13 +70,14 @@ COLUMN \tab DESCRIPTION \tab UNIT \cr
 \code{DR_TOTAL_X} \tab standard error total dose rate  \tab Gy/ka \cr
 }
 
-\emph{Note: All columns can be set to 0 or NA, no column must be left empty! If a value > 0 is provided
+\emph{Note: All columns can be set to 0 or \code{NA} but no column must be left empty! If a value > 0 is provided
 for \code{DR_GAMMA_TOTAL} this value is taken and values in, e.g., \code{DR_GAMMA_K} are discarded (set to 0)!}
 
 \strong{Systematic uncertainties}
 
-The following table provides informaton on the named argument
-that can be provided via the argument \code{sigma_s}
+The following table provides information on the named argument
+that can be provided via the argument \code{sigma_s}. Missing values are not allowed, all
+values must be set.
 
 \tabular{lll}{
 ARGUMENT \tab DESCRIPTION \tab UNIT \cr
@@ -124,13 +125,16 @@ sigma_s =  c(
 } 
 
 \section{How to cite}{
-Kreutzer, S., 2022. create_ThetaMatrix(): Create Theta Matrix. Function version 0.1.0. In: Christophe, C., Philippe, A., Kreutzer, S., Guerin, G., 2022. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.2.1. https://CRAN.r-project.org/package=BayLum
+Kreutzer, S., Guérin, G., 2023. create_ThetaMatrix(): Create Theta Matrix. Function version 0.1.0. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
 }
 
 \references{
 Combès, B., Philippe, A., 2017. Bayesian analysis of individual and systematic multiplicative errors
 for estimating ages with stratigraphic constraints in optically stimulated luminescence dating.
 Quaternary Geochronology 39, 24–34. \doi{10.1016/j.quageo.2017.02.003}
+
+Guérin, G., Lahaye, C., Heydari, M., Autzen, M., Buylaert, J.-P., Guibert, P., Jain, M., Kreutzer, S., Lebrun, B., Murray, A.S., Thomsen, K.J., Urbanova, P., Philippe, A., 2021. Towards an improvement of optically stimulated luminescence (OSL) age uncertainties: modelling OSL ages with systematic errors, stratigraphic constraints and radiocarbon ages using the R package BayLum. Geochronology 3, 229—245.
+\doi{10.5194/gchron-3-229-2021}
 }
 \seealso{
 \link{AgeS_Computation}, \link{Age_OSLC14}, \link[utils:read.table]{utils::read.table}, \link[utils:write.table]{utils::write.table}

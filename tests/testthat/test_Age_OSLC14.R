@@ -13,7 +13,6 @@ test_that("Full function test", {
   SigmaC14Cal <- DATA_C14$C14[1,2]
   Names <- DATA_C14$Names[1]
 
-
   # Prior Age
   prior <- rep(c(1, 60), 3)
   samplenature = matrix(
@@ -42,13 +41,14 @@ test_that("Full function test", {
       PriorAge = prior,
       StratiConstraints = SC,
       Iter = 50,
+      adapt = 50,
+      burnin = 50,
       n.chains = 2
     )
   ), class = "BayLum.list")
 
-  ## check autorun mode via creating an error (everything else takes too long)
-  expect_error(
-    Age_OSLC14(
+  ## check  mode via creating an error (everything else takes too long)
+  results <- expect_s3_class(suppressWarnings(Age_OSLC14(
       DATA = Data,
       jags_method = 'rjparallel',
       Data_C14Cal = C14Cal,
@@ -59,9 +59,11 @@ test_that("Full function test", {
       PriorAge = prior,
       StratiConstraints = SC,
       Iter = 50,
+      burnin = 20,
+      adapt = 20,
       n.chains = 2,
       startburnin = 50,
-      startsample = 400))
+      startsample = 400)), "BayLum.list")
 
   ##crash function for wrong ordering
   samplenature <-
@@ -86,6 +88,11 @@ test_that("Full function test", {
     ),
     "If you see this message, you are probably trying to run the model with a small number of samples."
   )
+
+  ## test output for regression
+  expect_silent(plot_Ages(results))
+  expect_silent(suppressWarnings(plot_MCMC(results)))
+  plot_Scatterplots(results)
 
 })
 

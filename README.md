@@ -12,11 +12,9 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4311266.svg)](https://doi.org/10.5281/zenodo.4311266)
 [![CRAN](https://www.r-pkg.org/badges/version/BayLum)](https://CRAN.R-project.org/package=BayLum)
-[![cran
-checks](https://cranchecks.info/badges/worst/BayLum)](https://cranchecks.info/pkgs/BayLum)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/BayLum)](https://www.r-pkg.org/pkg/BayLum)
 [![R-CMD-check](https://github.com/crp2a/BayLum/workflows/GitHub%20Actions%20CI/badge.svg)](https://github.com/crp2a/BayLum/actions)
-[![codecov](https://app.codecov.io/gh/crp2a/BayLum/branch/master/graph/badge.svg)](https://app.codecov.io/gh/crp2a/BayLum)
+[![codecov](https://app.codecov.io/gh/crp2a/BayLum/branch/master/graph/badge.svg?token=cOdZr6imKX)](https://app.codecov.io/gh/crp2a/BayLum)
 
 An R package for chronological **Bay**esian models integrated for
 Optically Stimulated (OSL) **Lum**inescence Dating
@@ -44,6 +42,12 @@ To install a developer build other than ‘master’, replace the term
 Please further note that this version is a development version and may
 change day by day. For stable branches please visit the package on [CRAN
 ‘BayLum’](https://CRAN.R-project.org/package=BayLum).
+
+## Funding
+
+The development of `'BayLum'` was supported by [LabEx LaScArBx (ANR
+-n.ANR-10-LABX-52)](https://lascarbx.labex.u-bordeaux.fr) between 2015
+and 2018 (in particular through the MAM and COVADIM projects).
 
 ## License
 

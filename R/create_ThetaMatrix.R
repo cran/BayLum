@@ -2,7 +2,7 @@
 #'
 #' @description Create the \eqn{\Theta} matrix with the shared uncertainties
 #' that can used as input in, e.g., [AgeS_Computation] and [Age_OSLC14] which is used for the
-#' covariance matrix \eqn{\Sigma} (Combès \& Philippe, 2017)
+#' covariance matrix \eqn{\Sigma} (Combès & Philippe, 2017)
 #'
 #' @details The function intends to ease the creation of the \eqn{Theta} matrix, which cannot be
 #' created straight forward, e.g., base R functions such as `stats::cov`.
@@ -10,7 +10,7 @@
 #'
 #' \deqn{\Sigma_ij = A_i * A_j * \Theta_ij}
 #'
-#' For details see Combès \& Philippe, 2017 and Guérin et al. (under review).
+#' For details see Combès & Philippe, 2017 and Guérin et al. (2021).
 #'
 #' **Input modes**
 #'
@@ -41,13 +41,14 @@
 #' `DR_TOTAL_X` \tab standard error total dose rate  \tab Gy/ka \cr
 #' }
 #'
-#' *Note: All columns can be set to 0 or NA, no column must be left empty! If a value > 0 is provided
+#' *Note: All columns can be set to 0 or `NA` but no column must be left empty! If a value > 0 is provided
 #' for `DR_GAMMA_TOTAL` this value is taken and values in, e.g., `DR_GAMMA_K` are discarded (set to 0)!*
 #'
 #' **Systematic uncertainties**
 #'
-#' The following table provides informaton on the named argument
-#' that can be provided via the argument `sigma_s`
+#' The following table provides information on the named argument
+#' that can be provided via the argument `sigma_s`. Missing values are not allowed, all
+#' values must be set.
 #'
 #' \tabular{lll}{
 #' ARGUMENT \tab DESCRIPTION \tab UNIT \cr
@@ -85,7 +86,7 @@
 #'
 #' @seealso [AgeS_Computation], [Age_OSLC14], [utils::read.table], [utils::write.table]
 #'
-#' @return A symetric \eqn{Theta} matrix or if `input` is missing, a [data.frame] with an input
+#' @return A symmetric \eqn{Theta} matrix or if `input` is missing, a [data.frame] with an input
 #' template
 #'
 #' @references
@@ -93,6 +94,10 @@
 #' Combès, B., Philippe, A., 2017. Bayesian analysis of individual and systematic multiplicative errors
 #' for estimating ages with stratigraphic constraints in optically stimulated luminescence dating.
 #' Quaternary Geochronology 39, 24–34. \doi{10.1016/j.quageo.2017.02.003}
+#'
+#' Guérin, G., Lahaye, C., Heydari, M., Autzen, M., Buylaert, J.-P., Guibert, P., Jain, M., Kreutzer, S., Lebrun, B., Murray, A.S., Thomsen, K.J., Urbanova, P., Philippe, A., 2021. Towards an improvement of optically stimulated luminescence (OSL) age uncertainties: modelling OSL ages with systematic errors, stratigraphic constraints and radiocarbon ages using the R package BayLum. Geochronology 3, 229—245.
+#' \doi{10.5194/gchron-3-229-2021}
+
 #'
 #' @examples
 #' ##(1) return template data.frame (no file output)
@@ -163,7 +168,6 @@ create_ThetaMatrix <- function(
   # Verify basic input --------------------------------------------------------------------------------
   # basic input
   if(missing(input)){
-
     #set data.frame
     df <- as.data.frame(matrix(NA_real_, ncol = length(df_colnames)))
     colnames(df) <- df_colnames
@@ -186,10 +190,10 @@ create_ThetaMatrix <- function(
     ##return
     return(df)
 
-  }else if(class(input) == "data.frame"){
+  }else if(inherits(input, "data.frame")){
      df <- input
 
-  }else if(class(input) == "character"){
+  }else if(inherits(input, "character")){
     if(!file.exists(input))
       stop(paste0("[create_ThetaMatrix()] File ", input, " does not exist!"), call. = FALSE)
 
@@ -216,7 +220,7 @@ create_ThetaMatrix <- function(
   }
 
   ##check sigma_s
-  if(!is.null(sigma_s) && !all(names(sigma_s) %in% sigma_s_ref))
+  if(!is.null(sigma_s) && !all(sigma_s_ref %in% names(sigma_s)))
       stop("[create_ThetaMatrix()] Value names do not match in 'sigma_s', please check the manual!", call. = FALSE)
 
   ##set NULL case
@@ -227,10 +231,9 @@ create_ThetaMatrix <- function(
   }
 
 # Verify data.frame ---------------------------------------------------------------------------
-
   #verify data.frame, we hard stop here
   if(!all(colnames(df) %in% df_colnames))
-    stop("[create_ThetaMatrix()] The input data.frame has not the expected columns, please check the manual!",call. = FALSE)
+    stop("[create_ThetaMatrix()] The input data.frame does not contain the expected columns, please check the manual!",call. = FALSE)
 
   #if data.frame has only one row, it cannot work either
   if(nrow(df) < 2)
@@ -242,8 +245,6 @@ create_ThetaMatrix <- function(
     warning("[create_ThetaMatrix()] NA values found and set to 0.", call. = FALSE)
 
   }
-
-
 
   # Create matrix -------------------------------------------------------------------------------
   ##to avoid a miscalculation, we remove columns not used due to the gamma dose rate setting
