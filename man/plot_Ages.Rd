@@ -77,9 +77,4 @@ plot_Ages(Age, plot_mode = "density")
 \author{
 Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl-University of Heidelberg (Germany), based on code
 written by Claire Christophe
-} 
-
-\section{How to cite}{
-Kreutzer, S., Christophe, C., 2023. plot_Ages(): Create Age Plot. Function version 0.1.5. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
-}
-
+, RLum Developer Team}

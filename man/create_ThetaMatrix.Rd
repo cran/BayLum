@@ -122,12 +122,7 @@ sigma_s =  c(
 
 
 
-} 
-
-\section{How to cite}{
-Kreutzer, S., Guérin, G., 2023. create_ThetaMatrix(): Create Theta Matrix. Function version 0.1.0. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
 }
-
 \references{
 Combès, B., Philippe, A., 2017. Bayesian analysis of individual and systematic multiplicative errors
 for estimating ages with stratigraphic constraints in optically stimulated luminescence dating.
@@ -142,6 +137,6 @@ Guérin, G., Lahaye, C., Heydari, M., Autzen, M., Buylaert, J.-P., Guibert, P., 
 \author{
 Sebastian Kreutzer, IRAMAT-CRP2A, UMR 5060, CNRS-Université Bordeaux Montaigne (France), based
 on an 'MS Excel' sheet by Guillaume Guérin, IRAMAT-CRP2A, UMR 5060, CNRS-Université Bordeaux Montaigne (France)
-}
+, RLum Developer Team}
 \keyword{IO}
 \keyword{datagen}

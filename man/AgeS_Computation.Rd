@@ -6,8 +6,8 @@
 \usage{
 AgeS_Computation(
   DATA,
-  SampleNames,
-  Nb_sample,
+  SampleNames = DATA$SampleNames,
+  Nb_sample = DATA$Nb_sample,
   PriorAge = rep(c(0.01, 100), Nb_sample),
   BinPerSample = rep(1, Nb_sample),
   SavePdf = FALSE,
@@ -351,12 +351,7 @@ Age <- AgeS_Computation(
   jags_method = "rjparallel")
 }
 
-} 
-
-\section{How to cite}{
-Christophe, C., Philippe, A., Guérin, G., Kreutzer, S., 2023. AgeS_Computation(): Bayesian analysis for OSL age estimation of various samples. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
 }
-
 \references{
 Combes, Benoit and Philippe, Anne, 2017.
 Bayesian analysis of multiplicative Gaussian error for multiple ages estimation in optically stimulated luminescence dating.
@@ -371,4 +366,4 @@ Quaternary Geochronology 28, 62-70. doi:10.1016/j.quageo.2015.04.001
 }
 \author{
 Claire Christophe, Anne Philippe, Guillaume Guérin, Sebastian Kreutzer
-}
+, RLum Developer Team}

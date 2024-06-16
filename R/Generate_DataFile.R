@@ -1,6 +1,6 @@
-#' Generates, from one (or several) BIN-file(s) of Single-grain OSL measurements,
-#' a list of luminescence data and information before statistical analysis
+#' @title Generates, from one (or several) BIN-file(s) of Single-grain OSL measurements, a list of luminescence data and information before statistical analysis (DEPRECATED)
 #'
+#' @description
 #' This function is used to generate, from the BIN file(s), a list of values of:
 #' \bold{Single-grain} OSL intensities and associated uncertainties, regenerative doses, etc., which will be the input of the Bayesian models.
 #' To be easy-to-use, this function requires a rigorous organisation - all needed files should be arranged in one folder -
@@ -45,7 +45,7 @@
 #'
 #' Each sub folder can be named, for example, as the sample name followed by a number; it must contain:
 #' \itemize{
-#'   \item \bold{bin.BIN}: the bin file renamed as bin.BIN (note: the name of all files matters);
+#'   \item \bold{bin.bin}: the bin file renamed as bin.BIN (note: the name of all files matters);
 #'   \item \bold{DiscPos.csv}: a two columns csv file containing the list of disc and grain position number of the previously selected grains
 #'   (typically this list will include the position of grains based on their sensitivity, recycling or other properties);
 #'   \item \bold{DoseEnv.csv}: a two columns file containing the observation of the natural (or environmental),
@@ -125,6 +125,8 @@
 #' \code{\link{Age_Computation}}, \code{\link{AgeS_Computation}}, \code{\link{Palaeodose_Computation}}
 #'
 #' @examples
+#'
+#' \dontrun{
 #' ## Example for one sample with one Bin File
 #' path<- system.file("extdata/samp1", "", package="BayLum")
 #' folder=""
@@ -140,7 +142,9 @@
 #' # save(Data,file=c(paste(path,folder,'Data.RData',sep="")))
 #' ## to load information containing Data.RData object
 #' # load(file=c(paste(path,folder,"Data.RData",sep="")))
+#' }
 #'
+#' @name Generate_DataFile-deprecated
 #' @md
 #' @export
 Generate_DataFile <- function(
@@ -156,6 +160,8 @@ Generate_DataFile <- function(
   verbose = TRUE,
   ...
 ){
+
+  .Deprecated("create_DataFile()")
 
   #--- create object needed
   #---------------------------------------
@@ -250,8 +256,8 @@ Generate_DataFile <- function(
 
       if((Nb_measurement[bf]-floor(Nb_measurement[bf]))!=0){
         warning(paste("Problem folder: ",FolderNames[bf],
-                      ". Check in bin.BIN file if for all aliquots the measurement of Lx and Tx is the same.
-                      If not you can create a new subfolder with the same bin.BIN, DoseEnv.csv, DoseSource.csv, rule.csv
+                      ". Check in bin.bin file if for all aliquots the measurement of Lx and Tx is the same.
+                      If not you can create a new subfolder with the same bin.bin, DoseEnv.csv, DoseSource.csv, rule.csv
                       and a new DiscPos.csv corresponding to these aliquots that had different number of measurement than the previous aliquot.
                       That means considered an other bin file for your sample.",sep=""),
                 call. = FALSE)

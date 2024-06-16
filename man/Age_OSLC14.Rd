@@ -8,8 +8,8 @@ Age_OSLC14(
   DATA,
   Data_C14Cal,
   Data_SigmaC14Cal,
-  Nb_sample,
-  SampleNames,
+  Nb_sample = DATA$Nb_sample,
+  SampleNames = DATA$SampleNames,
   SampleNature,
   PriorAge = rep(c(10, 60), Nb_sample),
   SavePdf = FALSE,
@@ -381,12 +381,7 @@ Age <- Age_OSLC14(
  n.chains = 2)
 }
 
-} 
-
-\section{How to cite}{
-Christophe, C., Philippe, A., Kreutzer, S., Baumgarten, F.H., 2023. Age_OSLC14(): Bayesian analysis for age estimation of OSL measurements and C-14 ages of various samples. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
 }
-
 \references{
 Reimer PJ, Bard E, Bayliss A, Beck JW, Blackwell PC, Bronl Ramsey C, Buck CE, Cheng H, Edwards RL, Friedrich M,
 Grootes PM, Guilderson TP, Haflidason H, Hajdas I, Hatte C, Heaton TJ, Hoffmann DL, Hogg AG, Hughen KA, Kaiser KF, Kromer B,
@@ -401,4 +396,4 @@ Hogg AG, Hua Q, Blackwell PG, Niu M, Buck CE, Guilderson TP, Heaton TJ, Palmer J
 }
 \author{
 Claire Christophe, Anne Philippe, Guillaume Guerin, Sebastian Kreutzer, Frederik Harly Baumgarten
-}
+, RLum Developer Team}

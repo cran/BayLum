@@ -121,11 +121,6 @@ DRsource.error = 0.0010)
 }
 \author{
 Frederik Baumgarten, RadPhys, DTU Physics, Technical University of Denmark (Denmark)
-} 
-
-\section{How to cite}{
-Baumgarten, F.H., 2023. write_BayLumFiles(): Write BayLum .csv-files. Function version 0.1.0. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
-}
-
+, RLum Developer Team}
 \keyword{IO}
 \keyword{datagen}

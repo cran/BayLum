@@ -6,7 +6,7 @@
 \usage{
 Age_Computation(
   DATA,
-  SampleName,
+  SampleName = DATA$SampleNames[1],
   PriorAge = c(0.01, 100),
   BinPerSample = c(1),
   SavePdf = FALSE,
@@ -182,12 +182,7 @@ Age <- Age_Computation(
  Iter = 100,
  quiet = TRUE)
 
-} 
-
-\section{How to cite}{
-Christophe, C., Kreutzer, S., Philippe, A., Guérin, G., 2023. Age_Computation(): Bayesian analysis for the OSL age estimation of one sample. In: Christophe, C., Philippe, A., Kreutzer, S., Guérin, G., Baumgarten, F.H., 2023. BayLum: Chronological Bayesian Models Integrating Optically Stimulated. R package version 0.3.1. https://CRAN.r-project.org/package=BayLum
 }
-
 \references{
 Combes, Benoit and Philippe, Anne, 2017.
 Bayesian analysis of multiplicative Gaussian error for multiple ages estimation in optically
@@ -203,4 +198,4 @@ Quaternary Geochronology 28, 62-70. doi:10.1016/j.quageo.2015.04.001
 }
 \author{
 Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
-}
+, RLum Developer Team}

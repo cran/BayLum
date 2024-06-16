@@ -1,4 +1,4 @@
-#' @title Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements a list of luminescence data and information before statistical analysis
+#' @title Generates, from one (or several) BIN file(s) of Multi-grain OSL measurements a list of luminescence data and information before statistical analysis (DEPRECATED)
 #'
 #' @description This function is used to generate, from the BIN file(s), a list of values of:
 #'
@@ -56,7 +56,7 @@
 #'
 #' Each subfolder can be named, for example, as the sample name followed by a number; it must contain:
 #' \itemize{
-#'   \item \bold{bin.BIN}, the bin file renamed as bin.BIN (note: the name of all files matters);
+#'   \item \bold{bin.bin}, the bin file renamed as bin.BIN (note: the name of all files matters);
 #'   \item \bold{Disc.csv}, a one columns csv file containing the list of disc number of the previously selected grains
 #'   (typically this list will include the position of grains based on their sensitivity, recycling or other properties);
 #'   \item \bold{DoseEnv.csv}, a two columns file containing the observation of the natural (or environmental),
@@ -138,6 +138,7 @@
 #' \code{\link{Age_Computation}}, \code{\link{AgeS_Computation}}, \code{\link{Palaeodose_Computation}}
 #'
 #' @examples
+#' \dontrun{
 #' path <- system.file("extdata/FER1", "", package="BayLum")
 #' folder <- ""
 #' # give the number of sample
@@ -152,7 +153,8 @@
 #' #save(DATA,file=c(paste(path,folder,'DATA.RData',sep="")))
 #' # to load information containing DATA.RData object
 #' #load(file=c(paste(path,folder,"DATA.RData",sep="")))
-#'
+#' }
+#' @name Generate_DataFile_MG-deprecated
 #' @md
 #' @export
 Generate_DataFile_MG <- function(
@@ -169,7 +171,7 @@ Generate_DataFile_MG <- function(
   force_run1_at_a_time = FALSE,
   ...
 ){
-
+  .Deprecated("create_DataFile()")
 
   #--- create object needed
   #---------------------------------------
@@ -284,8 +286,8 @@ Generate_DataFile_MG <- function(
 
       if((Nb_measurement[bf]-floor(Nb_measurement[bf]))!=0){
         warning(paste("Problem folder: ",FolderNames[bf],
-                ". Check in bin.BIN file if for all aliquots the measurement of Lx and Tx is the same.
-                If not you can create a new subfolder with the same bin.BIN, DoseEnv.csv, DoseSource.csv, rule.csv
+                ". Check in bin.bin file if for all aliquots the measurement of Lx and Tx is the same.
+                If not you can create a new subfolder with the same bin.bin, DoseEnv.csv, DoseSource.csv, rule.csv
                 and a new DiscPos.csv corresponding to these aliquots that had different number of measurement than the previous aliquot.
                 That means considered an other bin file for your sample.",sep=""),
                 call. = FALSE)

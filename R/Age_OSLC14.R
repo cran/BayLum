@@ -358,8 +358,8 @@ Age_OSLC14 <- function(
     DATA,
     Data_C14Cal,
     Data_SigmaC14Cal,
-    Nb_sample,
-    SampleNames,
+    Nb_sample = DATA$Nb_sample,
+    SampleNames = DATA$SampleNames,
     SampleNature,
     PriorAge = rep(c(10, 60), Nb_sample),
     SavePdf = FALSE,
@@ -392,7 +392,7 @@ Age_OSLC14 <- function(
   if (inherits(DATA, "BayLum.list")) {
     ## reattach mcmc-list to runjags_object
     DATA$runjags_object$mcmc <- DATA$Sampling
-      
+
     ind_OSL <- which(DATA$runjags_object$args$SampleNature[1,] == 1)
     CS_OSL <- cumsum(DATA$runjags_object$args$SampleNature[1,])
     ind_C14 <- which(DATA$runjags_object$args$SampleNature[2,] == 1)
@@ -412,6 +412,7 @@ Age_OSLC14 <- function(
         thin = t,
         method = jags_method,
         silent.jags = quiet,
+        combine = FALSE,
         ...
       )
 
@@ -829,9 +830,9 @@ for (i in 1:results_runjags$args$Nb_sample) {
     '\n'
   ))
   cat("\t\t\t\t\t\t lower bound \t upper bound\n")
-  HPD_95 = ArchaeoPhases::CredibleInterval(Sample[, i], 0.95, roundingOfValue =
+  HPD_95 = CredibleInterval(Sample[, i], 0.95, roundingOfValue =
                                              roundingOfValue)
-  HPD_68 = ArchaeoPhases::CredibleInterval(Sample[, i], 0.68, roundingOfValue =
+  HPD_68 = CredibleInterval(Sample[, i], 0.68, roundingOfValue =
                                              roundingOfValue)
   cat(
     "\t\t\t\t at level 95% \t",
