@@ -42,4 +42,4 @@ SCMatrix(
 }
 \author{
 Claire Christophe, Anne Philippe, Guillaume Guérin, Sebastian Kreutzer
-, RLum Developer Team}
+}

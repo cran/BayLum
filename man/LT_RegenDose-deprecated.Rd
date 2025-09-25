@@ -89,4 +89,4 @@ LT_RegenDose(
 }
 \author{
 Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
-, RLum Developer Team}
+}

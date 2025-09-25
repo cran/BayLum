@@ -121,6 +121,6 @@ DRsource.error = 0.0010)
 }
 \author{
 Frederik Baumgarten, RadPhys, DTU Physics, Technical University of Denmark (Denmark)
-, RLum Developer Team}
+}
 \keyword{IO}
 \keyword{datagen}

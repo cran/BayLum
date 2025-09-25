@@ -83,7 +83,7 @@ The decimal of this file must be a dot, and the separator must be a comma. }
 
 \item{n.chains}{\link{integer} (with default): number of independent chains for the model (for more information see \link[rjags:jags.model]{rjags::jags.model}.}
 
-\item{quiet}{\link{logical} (with default): enables/disables \link{rjags} messages}
+\item{quiet}{\link{logical} (with default): enables/disables \link[rjags:rjags-package]{rjags::rjags-package} messages}
 
 \item{roundingOfValue}{\link{integer} (with default):  Integer indicating the number of decimal places to be used, default set to 3.}
 }
@@ -203,8 +203,8 @@ Hogg AG, Hua Q, Blackwell PG, Niu M, Buck CE, Guilderson TP, Heaton TJ, Palmer J
 2013. SHCal13 Southern Hemisphere calibration, 0-50000 years cal. BP Radiocarbon 55(4):1889-1903
 }
 \seealso{
-\link{rjags}, \link{plot_MCMC}, \link{SCMatrix}, \link{plot_Ages}
+\link[rjags:rjags-package]{rjags::rjags-package}, \link{plot_MCMC}, \link{SCMatrix}, \link{plot_Ages}
 }
 \author{
 Claire Christophe, Anne Philippe, Guillaume Guérin, Sebastian Kreutzer
-, RLum Developer Team}
+}

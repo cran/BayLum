@@ -79,7 +79,7 @@ A list containing the following objects:
 
 ** How to save this list **
 
-You can save this list in a .RData object. To do this, you can use the function \code{\link{save}}.
+You can save this list in a \code{.RData} object. To do this, you can use the function \code{\link{save}}.
 Then, to load this list you can use the function \code{\link{load}} (see example section fore more details).
 }
 \description{
@@ -175,9 +175,9 @@ str(DATA)
 }
 }
 \seealso{
-\code{\link{read_BIN2R}}, \code{\link{combine_DataFiles}}, \code{\link{LT_RegenDose}}
+\link[Luminescence:read_BIN2R]{Luminescence::read_BIN2R}, \code{\link{combine_DataFiles}}, \code{\link{LT_RegenDose}}
 \code{\link{Age_Computation}}, \code{\link{AgeS_Computation}}, \code{\link{Palaeodose_Computation}}
 }
 \author{
 Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
-, RLum Developer Team}
+}

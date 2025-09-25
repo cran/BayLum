@@ -75,10 +75,10 @@ plot_MCMC(object)
 }
 \seealso{
 \link{Age_Computation}, \link{AgeS_Computation}, \link{Palaeodose_Computation},
-\link[rjags:coda.samples]{rjags::coda.samples} and \link{rjags} packages.
+\link[rjags:coda.samples]{rjags::coda.samples} and \link[rjags:rjags-package]{rjags::rjags-package}
 }
 \author{
 Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl University of Heidelberg (Germany). This function
 is a re-written version of the function 'MCMC_plot()' by Claire Christophe
-, RLum Developer Team}
+}
 \keyword{dplot}

@@ -52,4 +52,4 @@ str(DATA3)
 \author{
 Sebastian Kreutzer, IRAMAT-CRP2A, UMR 5060, CNRS - Université Bordeaux Montaigne (France), adapting
 the idea from the function 'Concat_DataFile()' by Claire Christophe.
-, RLum Developer Team}
+}

@@ -137,6 +137,6 @@ Guérin, G., Lahaye, C., Heydari, M., Autzen, M., Buylaert, J.-P., Guibert, P., 
 \author{
 Sebastian Kreutzer, IRAMAT-CRP2A, UMR 5060, CNRS-Université Bordeaux Montaigne (France), based
 on an 'MS Excel' sheet by Guillaume Guérin, IRAMAT-CRP2A, UMR 5060, CNRS-Université Bordeaux Montaigne (France)
-, RLum Developer Team}
+}
 \keyword{IO}
 \keyword{datagen}

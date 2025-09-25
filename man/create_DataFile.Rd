@@ -32,7 +32,7 @@ Returns a \link{list} that can be processed by the modelling functions of 'BayLu
 }
 \description{
 The function pre-processes input data from BIN/BINX file, XSYG files
-or \linkS4class{RLum.Analysis} objects for \code{'BayLum'}. The parameters for
+or \link[Luminescence:RLum.Analysis-class]{Luminescence::RLum.Analysis} objects for \code{'BayLum'}. The parameters for
 the modelling are controlled by a to be supplied YAML configuration file
 (please read package vignette).
 }
@@ -78,4 +78,4 @@ create_DataFile(yaml_file)
 }
 \author{
 Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl University of Heidelberg (Germany), in parts based on code by Claire Christophe
-, RLum Developer Team}
+}

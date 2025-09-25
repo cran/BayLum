@@ -34,8 +34,8 @@ provided by \code{\link{Generate_DataFile}} or \code{\link{Generate_DataFile_MG}
 
 \item{BinPerSample}{integer vector (with default): vector with the number of BIN files per sample.
 The length of this vector is equal to \code{Nb_sample}.
-\code{BinPerSample}[i] correponds to the number of BIN files for the sample whose number ID is equal to \code{i}.
-For more information to fill this vector, we refer to detatils in \code{\link{Generate_DataFile}} or \code{\link{Generate_DataFile_MG}}.}
+\code{BinPerSample}[i] corresponds to the number of BIN files for the sample whose number ID is equal to \code{i}.
+For more information to fill this vector, we refer to details in \code{\link{Generate_DataFile}} or \code{\link{Generate_DataFile_MG}}.}
 
 \item{SavePdf}{boolean (with default): if TRUE save graph in pdf file named \code{OutputFileName} in folder \code{OutputFilePath}.}
 
@@ -61,12 +61,12 @@ Please see details for more informations on the proposed growth curves.}
 how individual equivalent dose values are distributed around the palaeodose.
 Allowed inputs are \bold{"cauchy"}, \bold{"gaussian"}, \bold{"lognormal_A"} and \bold{"lognormal_M"}.}
 
-\item{Iter}{integer (with default): number of iterations for the MCMC computation (for more information see \code{\link{jags.model}}).}
+\item{Iter}{integer (with default): number of iterations for the MCMC computation (for more information see [rjags::jags.model]).}
 
 \item{t}{integer (with default): 1 every \code{t} iterations of the MCMC is considered for sampling the posterior distribution
-(for more information see \code{\link{jags.model}}).}
+(for more information see [rjags::jags.model]).}
 
-\item{n.chains}{integer (with default): number of independent chains for the model (for more information see \code{\link{jags.model}}).}
+\item{n.chains}{integer (with default): number of independent chains for the model (for more information see [rjags::jags.model]).}
 }
 \value{
 \bold{NUMERICAL OUTPUT}\cr
@@ -97,7 +97,7 @@ the palaeodose and equivalent dose dispersion parameters for each sample.
  \item\bold{MCMC trajectories}
 A graph with the MCMC trajectories and posterior distributions of the palaeodose and equivalent dose dispersion parameters
 is displayed, there is one page per sample. \cr
-The first line of the figure correponds to the palaeodose parameter and the second to the equivalent dose dispersion parameter.
+The first line of the figure corresponds to the palaeodose parameter and the second to the equivalent dose dispersion parameter.
 On each line, the plot on the left represents the MCMC trajectories, and the one on the right the posterior distribution of the parameter.
  \item \bold{Summary of palaeodose estimates}: plot credible intervals and Bayes estimate of each sample palaeodose on a same graph.
 }
@@ -174,9 +174,9 @@ Quaternary Geochronology 28, 62-70. doi:10.1016/j.quageo.2015.04.001
 }
 \seealso{
 \code{\link{Generate_DataFile}}, \code{\link{Generate_DataFile_MG}}, \code{\link{combine_DataFiles}},
-\code{\link{rjags}}, \code{\link{plot_MCMC}},
+[rjags::rjags-package], [plot_MCMC],
 \code{\link{Age_Computation}}, \code{\link{AgeS_Computation}}
 }
 \author{
 Claire Christophe, Sebastian Kreutzer, Anne Philippe, Guillaume Guérin
-, RLum Developer Team}
+}

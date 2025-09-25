@@ -49,4 +49,4 @@ write_YAMLConfigFile(
 }
 \author{
 Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl University of Heidelberg (Germany)
-, RLum Developer Team}
+}

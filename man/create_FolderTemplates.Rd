@@ -52,6 +52,6 @@ create_FolderTemplates(tempdir())
 \author{
 Sebastian Kreutzer, Geography & Earth Sciences, Aberystwyth University
 (United Kingdom)
-, RLum Developer Team}
+}
 \keyword{IO}
 \keyword{datagen}

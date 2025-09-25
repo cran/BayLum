@@ -77,4 +77,4 @@ plot_Ages(Age, plot_mode = "density")
 \author{
 Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl-University of Heidelberg (Germany), based on code
 written by Claire Christophe
-, RLum Developer Team}
+}

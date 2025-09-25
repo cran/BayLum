@@ -106,9 +106,9 @@ plot_Scatterplots(
 }
 \seealso{
 \link{Age_Computation}, \link{AgeS_Computation}, \link{AgeC14_Computation},
-and \link{rjags} packages.
+and \link[rjags:rjags-package]{rjags::rjags-package} packages.
 }
 \author{
 Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl University of Heidelberg (Germany) ,
 based on the function 'ScatterSamples()' by Claire Christophe, Anne Philippe, Guillaume Guérin
-, RLum Developer Team}
+}

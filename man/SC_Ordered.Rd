@@ -28,5 +28,5 @@ SC <- SC_Ordered(Nb_sample = 3)
 }
 \author{
 Claire Christophe, Anne Philippe, Sebastian Kreutzer, Guillaume Guérin
-, RLum Developer Team}
+}
 \keyword{datagen}

@@ -34,4 +34,4 @@ plot_RegDosePoints(DATA3)
 }
 \author{
 Sebastian Kreutzer, Institute of Geography, Heidelberg University (Germany)
-, RLum Developer Team}
+}

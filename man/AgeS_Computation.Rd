@@ -362,8 +362,8 @@ A Bayesian central equivalent dose model for optically stimulated luminescence d
 Quaternary Geochronology 28, 62-70. doi:10.1016/j.quageo.2015.04.001
 }
 \seealso{
-\link{Generate_DataFile}, \link{Generate_DataFile_MG}, \link{rjags}, \link{plot_MCMC}, \link{SCMatrix}, \link{Age_Computation}, \link{Palaeodose_Computation}, \link{plot_Ages}, \link{create_ThetaMatrix}, \link{runjags}
+\link{Generate_DataFile}, \link{Generate_DataFile_MG}, \link[rjags:rjags-package]{rjags::rjags-package}, \link{plot_MCMC}, \link{SCMatrix}, \link{Age_Computation}, \link{Palaeodose_Computation}, \link{plot_Ages}, \link{create_ThetaMatrix}, \link[runjags:autorun.jags]{runjags::autorun.jags}
 }
 \author{
 Claire Christophe, Anne Philippe, Guillaume Guérin, Sebastian Kreutzer
-, RLum Developer Team}
+}

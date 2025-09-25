@@ -152,7 +152,7 @@ The decimal of this file must be a dot, and the separator must be a comma. }
 \item{adapt}{\link{integer} (with default): the number of iterations used in the adaptive phase of the simulation (see \link[runjags:run.jags]{runjags::run.jags}]).}
 
 \item{t}{\link{numeric} (with default): 1 every \code{t} iterations of the MCMC is
-considered for sampling the posterior distribution (for more information see [\link[rjags:jags.model]{rjags::jags.model}.}
+considered for sampling the posterior distribution (for more information see \link[rjags:jags.model]{rjags::jags.model}.}
 
 \item{n.chains}{\link{numeric} (with default): number of independent chains for the model
 (for more information see [\link[rjags:jags.model]{rjags::jags.model}).}
@@ -161,7 +161,7 @@ considered for sampling the posterior distribution (for more information see [\l
 
 \item{autorun}{\link{logical} (with default): choose to automate JAGS processing. JAGS model will be automatically extended until convergence is reached (for more information see \link[runjags:autorun.jags]{runjags::autorun.jags}).}
 
-\item{quiet}{\link{logical} (with default): enables/disables \link{rjags} messages}
+\item{quiet}{\link{logical} (with default): enables/disables \link[rjags:rjags-package]{rjags::rjags-package} messages}
 
 \item{roundingOfValue}{\link{integer} (with default):  Integer indicating the number of decimal places to be used, default = 3.}
 
@@ -392,8 +392,8 @@ Hogg AG, Hua Q, Blackwell PG, Niu M, Buck CE, Guilderson TP, Heaton TJ, Palmer J
 2013. SHCal13 Southern Hemisphere calibration, 0-50000 years cal BP. Radiocarbon 55(4):1889-1903
 }
 \seealso{
-\link{runjags}, \link{plot_MCMC}, \link{SCMatrix}, \link{plot_Ages}
+\link[runjags:run.jags]{runjags::run.jags}, \link{plot_MCMC}, \link{SCMatrix}, \link{plot_Ages}
 }
 \author{
 Claire Christophe, Anne Philippe, Guillaume Guerin, Sebastian Kreutzer, Frederik Harly Baumgarten
-, RLum Developer Team}
+}
